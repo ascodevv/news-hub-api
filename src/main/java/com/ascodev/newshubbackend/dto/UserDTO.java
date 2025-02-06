@@ -10,22 +10,16 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDTO {
 
-    @NonNull
     Long id;
 
-    @NonNull
     String username;
 
-    @NonNull
     String password;
 
-    @NonNull
     String email;
 
-    @NonNull
     User.Role role;
 
-    @NonNull
     User.UserStatus status;
 
 }

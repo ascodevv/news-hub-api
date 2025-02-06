@@ -12,13 +12,10 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LikeDTO {
 
-    @NonNull
     Long id;
 
-    @NonNull
     User user;
 
-    @NonNull
     News news;
 
 }

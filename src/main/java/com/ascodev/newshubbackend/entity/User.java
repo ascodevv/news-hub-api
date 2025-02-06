@@ -64,7 +64,7 @@ public class User implements UserDetails {
     }
 
     public enum UserStatus {
-        ACTIVE, DELETED
+        ACTIVE, BANNED, DELETED
     }
 
 }

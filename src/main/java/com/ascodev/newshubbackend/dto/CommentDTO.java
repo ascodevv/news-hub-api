@@ -15,20 +15,15 @@ import java.time.LocalDateTime;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CommentDTO {
 
-    @NonNull
     Long id;
 
-    @NonNull
     String content;
 
-    @NonNull
     News news;
 
-    @NonNull
     @JsonProperty("created_by")
     User createdBy;
 
-    @NonNull
     @JsonProperty("created_at")
     LocalDateTime createdAt;
 

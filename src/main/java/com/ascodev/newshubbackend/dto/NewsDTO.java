@@ -19,29 +19,21 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NewsDTO {
 
-    @NonNull
     Long id;
 
-    @NonNull
     User createdBy;
 
-    @NonNull
     String title;
 
-    @NonNull
     String content;
 
-    @NonNull
     News.NewsStatus status;
 
     @JsonProperty("created_date")
-    @NonNull
     LocalDateTime createdDate;
 
-    @NonNull
     List<Comment> comments = new ArrayList<>();
 
-    @NonNull
     List<Like> likes = new ArrayList<>();
 
 }
