@@ -5,11 +5,11 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDTO createUser(UserDTO userDTO);
-
     List<UserDTO> getAllUsers();
 
     UserDTO getUserById(Long Id);
+
+    UserDTO createUser(UserDTO userDTO);
 
     UserDTO updateUser(Long Id, UserDTO userUpdateRequest);
 

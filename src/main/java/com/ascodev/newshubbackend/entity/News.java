@@ -25,6 +25,9 @@ public class News {
     private String title;
 
     @Column(nullable = false)
+    private byte[] image;
+
+    @Column(nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)

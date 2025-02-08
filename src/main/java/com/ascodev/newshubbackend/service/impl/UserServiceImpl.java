@@ -22,6 +22,21 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
+    public List<UserDTO> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(userMapper::mapToUserDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDTO getUserById(Long Id) {
+        User user = userRepository.findById(Id)
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(String.format("User with id %s not found", Id))
+                );
+        return userMapper.mapToUserDTO(user);
+    }
+
+    @Override
     public UserDTO createUser(UserDTO userDTO) {
 
         if (userRepository.existsByEmail(userDTO.getEmail())) {
@@ -40,21 +55,6 @@ public class UserServiceImpl implements UserService {
         User savedUser = userRepository.save(user);
 
         return userMapper.mapToUserDTO(savedUser);
-    }
-
-    @Override
-    public List<UserDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream().map(userMapper::mapToUserDTO).collect(Collectors.toList());
-    }
-
-    @Override
-    public UserDTO getUserById(Long Id) {
-        User user = userRepository.findById(Id)
-            .orElseThrow(
-                () -> new ResourceNotFoundException(String.format("User with id %s not found", Id))
-        );
-        return userMapper.mapToUserDTO(user);
     }
 
     @Override
