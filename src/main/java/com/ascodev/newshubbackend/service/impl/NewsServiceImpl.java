@@ -52,7 +52,7 @@ public class NewsServiceImpl implements NewsService {
 
         news.setImage(newsDTO.getImage());
         news.setStatus(News.NewsStatus.APPROVED);
-        news.setCreatedBy(currentUser1);
+        news.setCreatedBy(null);
         news.setCreatedDate(LocalDateTime.now());
 
         news = newsRepository.save(news);

@@ -2,6 +2,7 @@ package com.ascodev.newshubbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.logging.log4j.simple.internal.SimpleProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
@@ -60,12 +61,19 @@ public class User implements UserDetails {
         return UserDetails.super.isEnabled();
     }
 
-    public enum Role {
-        USER, ADMIN
+    public enum Role  implements GrantedAuthority{
+        USER, ADMIN;
+
+        @Override
+        public String getAuthority() {
+            return name();
+        }
+
     }
 
     public enum UserStatus {
         ACTIVE, BANNED, DELETED
+
     }
 
 }

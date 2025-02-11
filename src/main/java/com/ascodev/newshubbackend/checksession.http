@@ -1,0 +1,7 @@
+GET http://localhost:8080/api/users
+Accept: application/json
+
+###
+DELETE http://localhost:8080/api/users/2
+Accept:
+
