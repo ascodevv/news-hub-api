@@ -82,7 +82,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public void deleteNews(Long Id) {
-
+        newsRepository.deleteById(Id);
     }
 
 }
