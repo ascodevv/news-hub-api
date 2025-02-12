@@ -2,18 +2,20 @@ package com.ascodev.newshubbackend.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.logging.log4j.simple.internal.SimpleProvider;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
 import java.util.Collection;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Component
 @Table(name = "users")
 @RequiredArgsConstructor
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,43 +32,18 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private List<Role> role;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private UserStatus status;
+    private List<UserStatus> status;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
-    }
-
-    public enum Role  implements GrantedAuthority{
+    public enum Role  implements GrantedAuthority {
         USER, ADMIN;
 
         @Override
         public String getAuthority() {
-            return name();
+            return "ROLE_" + name();
         }
 
     }

@@ -49,8 +49,8 @@ public class UserServiceImpl implements UserService {
 
         User user = userMapper.mapToUser(userDTO);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(User.Role.USER);
-        user.setStatus(User.UserStatus.ACTIVE);
+        user.setRole(List.of(User.Role.USER));
+        user.setStatus(List.of(User.UserStatus.ACTIVE));
 
         User savedUser = userRepository.save(user);
 
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
                 () -> new ResourceNotFoundException(String.format("User with id %s not found", Id))
         );
 
-        user.setStatus(User.UserStatus.BANNED);
+        user.setStatus(List.of(User.UserStatus.BANNED));
 
         userRepository.save(user);
 

@@ -3,6 +3,8 @@ import com.ascodev.newshubbackend.entity.User;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -18,8 +20,8 @@ public class UserDTO {
 
     String email;
 
-    User.Role role;
+    List<User.Role> role;
 
-    User.UserStatus status;
+    List<User.UserStatus> status;
 
 }
