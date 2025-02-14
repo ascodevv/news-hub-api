@@ -19,6 +19,10 @@ public class MyUserDetails implements UserDetails {
 
     private final User user;
 
+    public Long getUserId() {
+        return user.getId();
+    }
+
     @Override
     public String getUsername() {
         return user.getUsername();
@@ -34,15 +38,15 @@ public class MyUserDetails implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public List<GrantedAuthority> getAuthorities() {
         return user.getRole().stream().map(role -> new SimpleGrantedAuthority(role.getAuthority()))
             .collect(Collectors.toList()
         );
 
     }
 
-    public List<User.Role> getRoles() {
-        return user.getRole();
+    public List<User.UserStatus> getUserStatus() {
+        return user.getStatus();
     }
 
     @Override

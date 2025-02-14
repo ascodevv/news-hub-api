@@ -7,14 +7,23 @@ import com.ascodev.newshubbackend.exception.ResourceNotFoundException;
 import com.ascodev.newshubbackend.mapper.NewsMapper;
 import com.ascodev.newshubbackend.repository.NewsRepository;
 import com.ascodev.newshubbackend.repository.UserRepository;
+import com.ascodev.newshubbackend.security.MyUserDetails;
 import com.ascodev.newshubbackend.service.CommentService;
 import com.ascodev.newshubbackend.service.LikeService;
 import com.ascodev.newshubbackend.service.NewsService;
+import com.ascodev.newshubbackend.utils.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +32,7 @@ public class NewsServiceImpl implements NewsService {
 
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
+    private final JwtTokenUtils jwtTokenUtils;
     private final CommentService commentService;
     private final LikeService likeService;
     private final UserRepository userRepository;
@@ -43,16 +53,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public NewsDTO createNews(NewsDTO newsDTO) {
-        Long testUserId = 1L;
-
-        User currentUser1 = userRepository.findById(testUserId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
         News news = newsMapper.mapToNews(newsDTO);
-
 
         news.setImage(newsDTO.getImage());
         news.setStatus(News.NewsStatus.APPROVED);
-        news.setCreatedBy(null);
         news.setCreatedDate(LocalDateTime.now());
 
         news = newsRepository.save(news);

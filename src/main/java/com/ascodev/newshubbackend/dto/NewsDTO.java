@@ -3,6 +3,7 @@ package com.ascodev.newshubbackend.dto;
 import com.ascodev.newshubbackend.entity.Comment;
 import com.ascodev.newshubbackend.entity.Like;
 import com.ascodev.newshubbackend.entity.News;
+import com.ascodev.newshubbackend.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,7 +22,7 @@ public class NewsDTO {
     Long id;
 
     @JsonProperty("created_by")
-    Long userId;
+    User userId;
 
     String title;
 

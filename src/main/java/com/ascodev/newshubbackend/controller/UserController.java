@@ -16,7 +16,7 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
-    @GetMapping()
+    @GetMapping("/getAll")
     public ResponseEntity<Iterable<UserDTO>> getAllUsers() {
         List<UserDTO> users = userService.getAllUsers();
 

@@ -14,12 +14,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final MyUserDetailsService userDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,14 +29,16 @@ public class SecurityConfig {
             .csrf(AbstractHttpConfigurer::disable)
             .cors(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers("/api/users/getAll").hasAuthority("ROLE_USER")
+                .requestMatchers("/api/news").hasAuthority("ROLE_USER")
                 .requestMatchers("/**").permitAll()
             )
+            .userDetailsService(userDetailsService)
             .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
             .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-            .logout(logout -> logout
-                    .logoutSuccessUrl("/")
-            );
+            .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
