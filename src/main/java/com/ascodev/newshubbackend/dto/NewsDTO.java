@@ -22,7 +22,7 @@ public class NewsDTO {
     Long id;
 
     @JsonProperty("created_by")
-    User userId;
+    User createdBy;
 
     String title;
 

@@ -1,5 +1,7 @@
 package com.ascodev.newshubbackend.security;
 
+import com.ascodev.newshubbackend.service.UserService;
+import com.ascodev.newshubbackend.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final MyUserDetailsService userDetailsService;
+    private final UserServiceImpl userService;
     private final JwtRequestFilter jwtRequestFilter;
 
     @Bean
@@ -33,7 +35,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/news").hasAuthority("ROLE_USER")
                 .requestMatchers("/**").permitAll()
             )
-            .userDetailsService(userDetailsService)
+            .userDetailsService(userService)
             .sessionManagement(httpSecuritySessionManagementConfigurer -> httpSecuritySessionManagementConfigurer
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
@@ -55,7 +57,7 @@ public class SecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setUserDetailsService(userService);
         authProvider.setPasswordEncoder(encoder());
         return authProvider;
     }

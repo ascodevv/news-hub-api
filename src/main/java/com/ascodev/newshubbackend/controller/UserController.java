@@ -1,10 +1,14 @@
 package com.ascodev.newshubbackend.controller;
 
 import com.ascodev.newshubbackend.dto.UserDTO;
+import com.ascodev.newshubbackend.mapper.UserMapper;
+import com.ascodev.newshubbackend.repository.UserRepository;
 import com.ascodev.newshubbackend.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +19,8 @@ import java.util.List;
 public class UserController {
 
     private final UserServiceImpl userService;
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @GetMapping("/getAll")
     public ResponseEntity<Iterable<UserDTO>> getAllUsers() {

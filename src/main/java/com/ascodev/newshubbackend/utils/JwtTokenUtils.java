@@ -1,6 +1,5 @@
 package com.ascodev.newshubbackend.utils;
 
-import com.ascodev.newshubbackend.security.MyUserDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -9,6 +8,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
@@ -34,7 +34,7 @@ public class JwtTokenUtils {
         secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(MyUserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
 
         List<String> authorities = userDetails.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
@@ -45,11 +45,8 @@ public class JwtTokenUtils {
 
         return Jwts.builder()
             .claims(Map.of(
-                "id", userDetails.getUserId(),
                 "sub", userDetails.getUsername(),
-                "authorities", authorities,
-                "status", userDetails.getUserStatus()
-
+                "authorities", authorities
         ))
         .issuedAt(issueDate)
         .expiration(expiryDate)
@@ -66,7 +63,7 @@ public class JwtTokenUtils {
     }
 
     public String getUsernameFromToken(String token) {
-        return getClaimsFromToken(token).getSubject();
+        return getClaimsFromToken(token).get("sub", String.class);
     }
 
     public List<String> getAuthorities (String token) {
